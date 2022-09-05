@@ -1,10 +1,10 @@
 {
-    "program": "vote.aleo",
-    "version": "0.0.0",
-    "description": "",
-    "development": {
-        "private_key": "APrivateKey1zkpALrymPZsLqj3pys4nrS55yV7HiMd4wzQeFZ58HpufnCp",
-        "address": "aleo1s7p25g4awj6htsaj0qe9y4jf540xldhy4gsktuajk5wgu34hd5pql86mnj"
-    },
-    "license": "MIT"
+  "program": "vote.aleo",
+  "version": "0.0.0",
+  "description": "",
+  "development": {
+    "private_key": "APrivateKey1zkpALrymPZsLqj3pys4nrS55yV7HiMd4wzQeFZ58HpufnCp",
+    "address": "aleo1s7p25g4awj6htsaj0qe9y4jf540xldhy4gsktuajk5wgu34hd5pql86mnj"
+  },
+  "license": "MIT"
 }

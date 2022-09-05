@@ -3,8 +3,11 @@ program vote.aleo;
 
 // Proposal details
 interface ProposalInfo:
-    title as string;
-    content as string;
+    title as field;
+    content as field;
+    // todo: wait bug-fix, https://github.com/AleoHQ/aleo/issues/334
+    // title as string;
+    // content as string;
     proposer as address;
 
 // Proposal record records proposal info publicly
