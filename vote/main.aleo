@@ -68,7 +68,7 @@ finalize propose:
     // proposal
     // input r1 as ProposalInfo.public;
     // todo: delete below, save to proposals mapping
-    increment tickets[r0] by 0field;
+    increment tickets[r0] by 0u64;
 
 // new_ticket(pid: field, voter: address)
 function new_ticket:
@@ -89,7 +89,7 @@ finalize new_ticket:
     // pid
     input r0 as field.public;
     // count tickets
-    increment tickets[r0] by 1field;
+    increment tickets[r0] by 1u64;
 
 // agree(ticket: Ticket.record)
 function agree:
@@ -99,7 +99,7 @@ function agree:
 
 finalize agree:
     input r0 as field.public;
-    increment agree_votes[r0] by 1field;
+    increment agree_votes[r0] by 1u64;
 
 // disagree(ticket: Ticket.record)
 function disagree:
@@ -110,4 +110,4 @@ function disagree:
 // disagree(pid: field)
 finalize disagree:
     input r0 as field.public;
-    increment disagree_votes[r0] by 1field;
+    increment disagree_votes[r0] by 1u64;
