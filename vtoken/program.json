@@ -1,0 +1,10 @@
+{
+    "program": "vtoken.aleo",
+    "version": "0.0.0",
+    "description": "",
+    "development": {
+        "private_key": "APrivateKey1zkpEaH1EKaDV96uc2fLpYbgt8TFqzf4sHyJutiiUbjBe1ZU",
+        "address": "aleo16p65y6evsqa8ysnnl63khvkzmt30rjgrqaug55uku9p08mdzvg9qgl5ltl"
+    },
+    "license": "MIT"
+}
