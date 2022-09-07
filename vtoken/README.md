@@ -110,3 +110,61 @@ Output sample:
   _nonce: 3186750062632675889649801362941891353510700423921068266233710274991469076661group.public
 }
 ```
+
+## Vote functions
+
+### Propose
+
+Run `propose` to propose a new proposal.
+```
+aleo run propose '{
+    title: 2077160157502449938194577302446444field,
+    content: 1452374294790018907888397545906607852827800436field,
+    proposer: aleo16p65y6evsqa8ysnnl63khvkzmt30rjgrqaug55uku9p08mdzvg9qgl5ltl
+}'
+```
+
+Output sample:
+```
+{
+  owner: aleo16p65y6evsqa8ysnnl63khvkzmt30rjgrqaug55uku9p08mdzvg9qgl5ltl.private,
+  gates: 0u64.private,
+  id: 5402209430955573454561267507373804385925558521277886561691924734792601164647field.public,
+  info: {
+    title: 2077160157502449938194577302446444field.public,
+    content: 1452374294790018907888397545906607852827800436field.public,
+    proposer: aleo16p65y6evsqa8ysnnl63khvkzmt30rjgrqaug55uku9p08mdzvg9qgl5ltl.public
+  },
+  _nonce: 3930858802423325331136926619947174167535286233161322346435852178068437001458group.public
+}
+```
+
+### Vote Public
+
+Run `vote_public` to vote for a proposal with public token.
+```
+aleo run vote_public 5402209430955573454561267507373804385925558521277886561691924734792601164647field 10u64 0u64
+```
+
+### Vote Private
+
+Run `vote_private` to vote for a proposal with private token.
+
+```
+aleo run vote_private 5402209430955573454561267507373804385925558521277886561691924734792601164647field 10u64 0u64 '{
+  owner: aleo16p65y6evsqa8ysnnl63khvkzmt30rjgrqaug55uku9p08mdzvg9qgl5ltl.private,
+  gates: 0u64.private,
+  amount: 100u64.private,
+  _nonce: 4035485712708310765311189352326001911411864245280359513992719528911857252742group.public
+}'
+```
+
+Output sample:
+```
+{
+  owner: aleo16p65y6evsqa8ysnnl63khvkzmt30rjgrqaug55uku9p08mdzvg9qgl5ltl.private,
+  gates: 0u64.private,
+  amount: 90u64.private,
+  _nonce: 914137269403345156810398045028227777023148094547419321439800257451058103256group.public
+}
+```

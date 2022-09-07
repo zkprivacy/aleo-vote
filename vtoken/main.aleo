@@ -17,6 +17,36 @@ record token:
     // The token amount.
     amount as u64.private;
 
+// Proposal details
+interface ProposalInfo:
+    title as field;
+    content as field;
+    proposer as address;
+
+// Proposal record records proposal info publicly
+// Delete this if mapping is more convenient to access
+record Proposal:
+    owner as address.private;
+    gates as u64.private;
+    id as field.public;
+    info as ProposalInfo.public;
+
+// Save proposal info in public storage
+// Delete this if record is more convenient to access
+mapping proposals:
+    key id as field.public;
+    value info as ProposalInfo.public;
+
+// Count votes of agreement
+mapping agree_votes:
+    key pid as field.public;
+    value amount as u64.public;
+
+// Count votes of disagreement
+mapping disagree_votes:
+    key pid as field.public;
+    value amount as u64.public;
+
 /* Mint */
 
 // The function `mint_public` issues the specified token amount
@@ -180,3 +210,98 @@ finalize transfer_public_to_private:
     // If `account[r0]` does not exist, it will be created.
     // If `account[r0] - r1` underflows, `transfer_public_to_private` is reverted.
     decrement account[r0] by r1;
+
+// Propose a new proposal.
+// propose(proposal: ProposalInfo)
+function propose:
+    // proposal
+    input r0 as ProposalInfo.public;
+    // check proposer
+    assert.eq self.caller r0.proposer;
+
+    // generate proposal id
+    hash.bhp256 r0 into r1;
+    // create record
+    cast self.caller 0u64 r1 r0 into r2 as Proposal.record;
+    output r2 as Proposal.record;
+
+    // finalize r1 r0;
+    finalize r1;
+
+finalize propose:
+    // id
+    input r0 as field.public;
+    // proposal
+    // input r1 as ProposalInfo.public;
+    // todo: delete below, save to proposals mapping
+    increment agree_votes[r0] by 0u64;
+
+// Vote with public token. The voter is public.
+// vote_public(pid: field, agree: u64, disagree: u64)
+function vote_public:
+    // pid
+    input r0 as field.public;
+    // agree
+    input r1 as u64.public;
+    // disagree
+    input r2 as u64.public;
+    // sum amount
+    add r1 r2 into r3;
+    finalize r0 r1 r2 self.caller r3;
+
+finalize vote_public:
+    // pid
+    input r0 as field.public;
+    // agree
+    input r1 as u64.public;
+    // disagree
+    input r2 as u64.public;
+    // voter
+    input r3 as address.public;
+    // amount
+    input r4 as u64.public;
+    // update votes
+    increment agree_votes[r0] by r1;
+    increment disagree_votes[r0] by r2;
+    // update public token balances
+    decrement account[r3] by r2;
+    increment account[aleo1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq3ljyzc] by r4;
+
+// Vote with private token. The voter is private.
+// vote_private(pid: field, agree: u64, disagree: u64, token: token)
+function vote_private:
+    // pid
+    input r0 as field.public;
+    // agree
+    input r1 as u64.public;
+    // disagree
+    input r2 as u64.public;
+    // token
+    input r3 as token.record;
+
+    // sum amount
+    add r1 r2 into r4;
+
+    // change
+    sub r3.amount r4 into r5;
+    cast r3.owner r3.gates r5 into r6 as token.record;
+    output r6 as token.record;
+
+    finalize r0 r1 r2 self.caller r4;
+
+finalize vote_private:
+    // pid
+    input r0 as field.public;
+    // agree
+    input r1 as u64.public;
+    // disagree
+    input r2 as u64.public;
+    // voter
+    input r3 as address.public;
+    // amount
+    input r4 as u64.public;
+    // update votes
+    increment agree_votes[r0] by r1;
+    increment disagree_votes[r0] by r2;
+    // record voted tokens in zero address
+    increment account[aleo1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq3ljyzc] by r4;
